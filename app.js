@@ -8,9 +8,9 @@ const crypto = require("crypto");
 
 const pool = mysql.createConnection({
             host:"localhost",
-            user:"root",
-            password:"",
-            database:"jhon marko"
+            user:"johnmarc_johnmarco",
+            password:"Sm7DLnR55E6nrwYRdYNM",
+            database:"johnmarc_johnmarco"
      });
 
      pool.connect(err => {
@@ -270,4 +270,5 @@ app.get('/myorders', (req, res) => {
 const PORT = 4000;
 app.listen(PORT,()=>{
   console.log(`running at http://localhost:${PORT}`)
+
 });
