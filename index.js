@@ -1,18 +1,26 @@
-// hello.js
+const mysql = require('mysql2');
 
-// server.js
-
-const http = require('http');
-
-// Create server
-const server = http.createServer((req, res) => {
-  res.statusCode = 200; // OK
-  res.setHeader('Content-Type', 'text/html');
-  res.end('<h1>Hello, World!</h1>');
+// Create connection
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'johnmarc_johnmarco',
+  password: 'Sm7DLnR55E6nrwYRdYNM',
+  database: 'johnmarc_johnmarco'
 });
 
-// Start server
-const PORT = 3000;
-server.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}/`);
+// Connect
+connection.connect(err => {
+  if (err) {
+    return console.error('Error connecting: ' + err.stack);
+  }
+  console.log('Connected to MySQL as ID ' + connection.threadId);
 });
+
+// Example query
+connection.query('SELECT NOW()', (err, results) => {
+  if (err) throw err;
+  console.log('Server time:', results[0]);
+});
+
+// Close
+connection.end();
