@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+       <div id="nav">
+    <div id="logo">
+        <img id="logoimg" src="/images/logo.png" alt="">
+    </div>
+
+    <!-- Dropdown Links -->
+    <div id="pages">
+        <div id="home">
+            <a href="/">home</a>
+        </div>
+         <div id="menu">
+        <a href="/menu/pizza">menu</a>
+    </div>
+        <div id="photogallery">
+            <a href="">photo gallery</a>
+        </div>
+        <div id="contact">
+            <a href="">contact us</a>
+        </div>
+        <div id="cart">
+            <a href="/cart"><button>my cart</button></a>
+        </div>
+        <% if (!user) { %>
+        <div id="login">
+            <a href="/login"><button>login</button></a>
+        </div>
+        <%  } %>
+      <% if (user) { %>
+        <div id="login">
+            <a href="/logout"><button>log out</button></a>
+        </div>
+        <p id="user">👤 <%= user.username %></p>
+        <%  } %>
+    </div>
+
+    <!-- Hamburger Menu Icon -->
+    <div id="menu-toggle">☰</div>
+
+</div>
+
+
+        <div class="herosection">
+                  <div class="heroseclist">
+                     <% result.forEach(function(item) { %>
+                        <div class="heroimage">
+                          <img src="/images/<%= item.hero %>" alt="">
+                        </div>
+                        <% }) %>
+                  </div>
+
+                   <div id="herobtn">
+                            <a href="/menu/pizza"><button>check menu</button></a>
+                   </div>
+
+                  <div id="slidebtn">
+                    <button id="prev"><</button>
+                    <button id="next">></button>
+                  </div>
+        </div>
+                                     
+        <div id="popup" class="popup-overlay">
+                <div class="popup-content">
+                    <span class="popup-close" id="popupClose">&times;</span>
+                    <img src="/images/cake.png" alt="Popup Image">
+                </div>
+        </div>
+
+        <div id="services">
+            <div id="serdata">
+                <p style="font-size: 25px; font-weight: 700; color: white;">our services</p>
+               <div class="data">
+                <div id="data">
+                    <img src="/images/delivery.png" alt="" style="border: 2px solid black;border-radius: 20px;display: block; margin: 0 auto; opacity: 0.8;"><br>
+                    <div id="sername" style="text-align: center; margin-top: 20px; font-size: 20px;">
+                       home delivery
+                    </div>
+                </div>
+                <div id="data">
+                    <img src="/images/qualityfood.png" alt="" style="border: 2px solid black;border-radius: 20px; display: block; margin: 0 auto;opacity: 0.8;"><br>
+                     <div id="sername" style="text-align: center; margin-top: 20px; font-size: 20px;">
+                       quality food
+                    </div>
+                </div>
+                <div id="data">
+                    <img src="/images/unlimitedpizza.png" alt="" style="border: 2px solid black;border-radius: 20px; display: block; margin: 0 auto;opacity: 0.8;"><br>
+                     <div id="sername" style="text-align: center; margin-top: 20px; font-size: 20px;">
+                       unlimited pizza
+                    </div>
+                </div>
+                <div id="data">
+                    <img src="/images/great.png" alt="" style="border: 2px solid black;border-radius: 20px; display: block; margin: 0 auto;opacity: 0.8;" height="125.2px" ><br>
+                     <div id="sername" style="text-align: center; margin-top: 20px; font-size: 20px;">
+                       great offers
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    
+        <div id="aboutus">
+            <div id="about">
+                <p style=" font-size: 25px;font-weight: 700;color: white;">about us</p>
+                <div id="aboutdata">
+                    <img src="/images/johnmarcos.png" alt=""  style="border-radius: 10px; margin: 20px;">
+                    <p id="head">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut nulla consequatur veritatis ab cum non libero in hic ad nostrum perferendis, reprehenderit voluptatem quas, corrupti recusandae tenetur eligendi fuga magni nihil rerum sed illum ipsum, tempora distinctio! Dolorum aut cupiditate nihil. Harum facere repellat delectus eos voluptates saepe adipisci</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="footer">
+               <div id="footerdata">
+                <img src="/images/logo.png" alt="" height="150px" style="border-radius: 50%;">
+                <div id="footaddress">
+                    <h3>address:</h3>
+                    <p style="width: 200px;">Sahjanand Complex, Near Swami Narayan Temple, Mansa, Mansa-382845</p>
+                </div>
+                <div id="footcontact">
+                    <h3>contacts:</h3>
+                    <p>emali: abcd@gmail.com <br> contact no: +911234567890</p>
+                </div>
+                <div id="footfollow">
+                    <h3>follow us:</h3><br>
+                    <a href="https://www.instagram.com/johnmarcospizza/">
+                    <img src="/images/insta.png" alt="" height="30px">
+                    </a>
+                </div>
+               </div>
+        </div>
+        
+        <script src="script.js"></script>
+         <script src="cart.js"></script>
+          <script src="slide.js"></script>
+          <script>
+              document.addEventListener("DOMContentLoaded", () => {
+    // Select all major sections by default
+    const sections = document.querySelectorAll(
+      "#services, #aboutus, #footer, #categories, #items, #orders, #orderbox, #cartfooter, #serdata, #aboutdata, #itembox"
+    );
+
+    // Add 'reveal' class to each
+    sections.forEach(el => el.classList.add("reveal"));
+
+    // IntersectionObserver to trigger animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("active");
+          observer.unobserve(entry.target); // animate only once
+        }
+      });
+    }, { threshold: 0.2 });
+
+    sections.forEach(el => observer.observe(el));
+  });
+
+// Reveal animation on scroll
+document.addEventListener("DOMContentLoaded", () => {
+  const images = document.querySelectorAll("#services #data img");
+
+  const revealImages = () => {
+    const section = document.getElementById("services");
+    const rect = section.getBoundingClientRect();
+
+    if (rect.top < window.innerHeight - 100) {
+      images.forEach((img, index) => {
+        setTimeout(() => {
+          img.classList.add("active");
+        }, index * 200); // stagger effect
+      });
+      window.removeEventListener("scroll", revealImages);
+    }
+  };
+
+  window.addEventListener("scroll", revealImages);
+  revealImages(); // run immediately if visible
+});
+
+
+          </script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+       <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body id="body">
+<div id="nav">
+    <div id="logo">
+        <img id="logoimg" src="/images/logo.png" alt="">
+    </div>
+    
+    <!-- Dropdown Links -->
+    <div id="pages">
+        <div id="home">
+            <a href="/">home</a>
+        </div>
+        <div id="photogallery">
+            <a href="">photo gallery</a>
+        </div>
+        <div id="contact">
+            <a href="">contact us</a>
+        </div>
+        <div id="cart">
+            <a href="/cart"><button>my cart</button></a>
+        </div>
+        <% if (!user) { %>
+        <div id="login">
+            <a href="/login"><button>login</button></a>
+        </div>
+        <%  } %>
+      <% if (user) { %>
+        <p id="user">👤 <%= user.username %></p>
+        <%  } %>
+    </div>
+    
+    <!-- Hamburger Menu Icon -->
+    <div id="menu-toggle">☰</div>
+    
+</div>
+
+<% if(!user) { %>
+    <div id="popup" class="popup-overlay">
+                <div class="popup-content" style="width: 250px;">
+                    <span class="popup-close" id="popupClose">&times;</span>
+                    <br>
+                    <br>
+                      <p style="text-align: center;">please login to order</p>
+                    <br>
+                    <br>
+                    <a href="/login" style="text-align: center; margin: 0px 40px; display: flex;justify-content: center;">
+                        <button style="border: none; padding: 5px; border-radius: 5px; background-color: #c4942d;width: 100px;">login</button>
+                    </a>
+                    <br>
+
+                </div>
+            </div>
+            <% } %>
+    
+<div id="itemcategories">
+
+        <div id="categories">                     
+            <% category.forEach(function(cat) { %>
+            <a href="/menu/<%= cat.category %>">
+                <div id="options" class="<%= (cat.category === selectedCategory) ? 'active' : '' %>">
+                    <img src="/<%= cat.photo %>" alt="" height="35px" style="border-radius: 50%;">
+                        <%= cat.category %> 
+                </div>
+            </a>  
+            <% }) %>
+        </div>
+
+        <div id="itembox">
+            <% result.forEach(function(item,index) { %>
+                <div id="items">
+
+  <div id="itemphoto">
+    <img src="/<%= item.image %>"  alt="">
+  </div>
+        
+  <div id="d">
+    <p id="n"><%= item.pname %></p>
+    <form  id="itemdetails" action="/cart" method="post">
+      <% if(item.category === "pizza"){ %>
+        <div id="sizeoption">
+          <label for="size">Size:</label>
+          <select class="size" name="size">
+            <option value="regular" selected>regular</option>
+            <option value="medium">medium</option>
+            <option value="large">large</option>
+          </select>
+        </div>
+      <% } %>
+
+      <!-- Price box with all sizes stored in data-* -->
+      <div class="itemprice" 
+           data-regular="<%= item.price %>" 
+           data-medium="<%= item.price_medium %>" 
+           data-large="<%= item.price_large %>">
+        ₹<%= item.price %>
+      </div>
+
+      <% if(user) { %>  
+        <div id="addbt">
+          <input type="hidden" name="id" value="<%= item.pid %>">
+          <input type="hidden" name="itemname" value="<%= item.pname %>">
+          <input type="hidden" name="itemimage" value="<%= item.image %>">
+          <input type="hidden" name="price" value="<%= item.price %>">
+          <input type="hidden" name="quantity" value="1">
+          <input type="hidden" name="category" value="<%= item.category %>">
+          <% if(item.available == 1) { %>
+            <input id="addbtn" type="submit" value="+add">
+          <% } else { %>
+            <p style="color: rgb(241, 244, 75); font-size: 13px;">currently not available</p>
+          <% } %>
+        </div>
+      <% } %>
+    </form>
+  </div>
+</div>
+
+            <% }) %>
+        </div>
+</div>
+
+        <script src="script.js"></script>
+        <script src="cart.js"></script>
+        <script src="slide.js"></script>
+        <script>
+  document.addEventListener("DOMContentLoaded", () => {
+  const sizeSelectors = document.querySelectorAll(".size");
+
+  sizeSelectors.forEach(select => {
+    select.addEventListener("change", (e) => {
+      const container = e.target.closest("#items");
+      const priceBox = container.querySelector(".itemprice");
+      const selectedSize = e.target.value;
+
+      // update price text
+      const newPrice = priceBox.dataset[selectedSize];
+      priceBox.innerText = "₹" + newPrice;
+
+      // also update hidden price input for cart form
+      const hiddenPrice = container.querySelector("input[name='price']");
+      if (hiddenPrice) hiddenPrice.value = newPrice;
+    });
+  });
+});
+   document.addEventListener("DOMContentLoaded", () => {
+  const popup = document.getElementById("popup");
+  const popupClose = document.getElementById("popupClose");
+
+  // ✅ Show popup only once per session (reset after browser closes)
+  if (!sessionStorage.getItem("popupShown")) {
+    popup.style.display = "flex";
+    sessionStorage.setItem("popupShown", "true");
+  }
+
+  // Close popup on click
+  popupClose.addEventListener("click", () => {
+    popup.style.display = "none";
+  });
+
+  // Also close when clicking outside the popup content
+  popup.addEventListener("click", (e) => {
+    if (e.target === popup) {
+      popup.style.display = "none";
+    }
+  });
+});
+
+// ✅ Your menu toggle code (unchanged)
+const menuToggle = document.getElementById("menu-toggle");
+const pages = document.getElementById("pages");
+
+menuToggle.addEventListener("click", () => {
+  pages.classList.toggle("active");
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+     body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+    }
+
+    /* Button */
+    .btn {
+      padding: 10px 15px;
+      margin: 20px;
+      background: #d36e15;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: #c5742e;
+    }
+
+    /* Popup overlay */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Modal content */
+    .modal-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      width: 400px;
+      max-width: 90%;
+      position: relative;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9);}
+      to { opacity: 1; transform: scale(1);}
+    }
+
+    /* Close button */
+    .close {
+      position: absolute;
+      top: 10px; right: 15px;
+      font-size: 20px;
+      cursor: pointer;
+      color: #333;
+    }
+
+    h2 { margin-bottom: 15px; }
+
+    .form-group { margin-bottom: 15px; }
+    label { font-weight: bold; display: block; margin-bottom: 5px; }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .payment-details {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      background: #f9f9f9;
+      border-radius: 5px;
+    }
+
+    /* Success Message */
+    #successMessage {
+      display: none;
+      text-align: center;
+    }
+    #successMessage h3 {
+      color: #28a745;
+      margin-bottom: 10px;
+    }
+    #successMessage p {
+      margin: 5px 0;
+    }
+  </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body style="background: linear-gradient(360deg,rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 18%, rgba(230, 193, 60, 0.82) 100%); background-repeat: no-repeat;">
+    
+         <div id="nav">
+    <div id="logo">
+        <img id="logoimg" src="/images/logo.png" alt="">
+    </div>
+
+    <!-- Dropdown Links -->
+    <div id="pages">
+        <div id="home">
+            <a href="/">home</a>
+        </div>
+         <div id="menu">
+            <a href="/menu/pizza">menu</a>
+       </div>
+        <div id="photogallery">
+            <a href="">photo gallery</a>
+        </div>
+        <div id="contact">
+            <a href="">contact us</a>
+        </div>
+    
+         <% if (!user) { %>
+        <div id="login">
+            <a href="/login"><button>login</button></a>
+        </div>
+        <%  } %>
+      <% if (user) { %>
+        <p id="user">👤 <%= user.username %></p>
+        <%  } %>
+    </div>
+
+    <!-- Hamburger Menu Icon -->
+    <div id="menu-toggle">☰</div>
+
+</div>
+
+<a href="/cart" style="border-bottom: 3px solid rgb(128, 128, 128); color: rgb(58, 36, 8); margin: 20px; font-weight: 700; padding: 2px; font-size: larger;">my cart</a>
+<a href="/myorders" style="color: rgb(82, 53, 16); margin: 20px">my orders</a>
+<hr style="width: 60%; height: 4px; background-color: rgba(128, 128, 128, 0.641); border-radius: 30px; margin-top: 10px;">
+<% if (user) { %>
+      <div id="mycart">
+        <div id="cartitem">
+         <% if (cart.length > 0) { %>
+             <% cart.forEach(function(item, index) { %>
+        <div id="items" style="width: 80%;">
+        <div id="itemphoto">
+          <img src="/<%= item.image %>" height="150px" alt="">
+        </div>
+        <div id="itemdetails">
+          <% offers.forEach(function(offer) { %>
+            
+          <% if(item.size === "medium" && offer.buy1get1 == 1) { %>
+              <p>free regular pizza + <%= item.name %> </p>
+          <% }else{ %>
+            <p><%= item.name %></p>
+          <% } %>
+
+          <% }) %>
+          <% if(item.category === "pizza") { %>
+          <div id="sizeoption">
+            <label for="size">size:</label>
+            <select name="size">
+              <option  hidden <%= item.size === "regular" ? "selected" : "" %>>regular</option>
+              <option hidden <%= item.size === "medium" ? "selected" : "" %>>medium</option>
+              <option hidden <%= item.size === "large" ? "selected" : "" %>>large</option>
+            </select>
+          </div>
+          <% } %>
+        </div>
+        <div id="itemprice">
+          ₹<%= item.price %> x <%= item.quantity %>
+        </div>
+        <div>
+          <form action="/cart/remove/<%= index %>" method="post">
+            <button id="delete" type="submit">remove</button>
+          </form>
+        </div>
+      </div>
+        <% }) %>
+    <% } else { %>
+       <p style="text-align: center; margin-top: 100px; font-weight: 500;">Your cart is empty.</p>
+    <% } %>
+  </div>
+  
+  <% if (cart.length > 0) { %>
+    <div id="cartfooter" style="margin-top: 100px;">
+      <% offers.forEach(function(offers) { %>
+        add more than ₹<%= offers.limitprice %> to get offer
+      <% }) %>
+      <div id="totalitems">
+        items: <%= cart.length %>
+      </div>
+      <div id="orderdetails">
+        
+        <% offers.forEach(function(offers) { %>
+
+              <% if(totalPrice > offers.limitprice) { 
+                let discountedPrice = totalPrice - (totalPrice * (offers.offer / 100));
+                let finalPrice = discountedPrice %>
+
+            <div id="totalprice" style="font-size: medium; margin-right: 10px;">
+              <p style="font-size: medium; font-weight: 300;">total price: ₹<%= totalPrice %></p>
+              <p style="font-size: small; font-weight: 200;">offer: <%= offers.offer %>% off</p>
+              <p style="font-size: small; font-weight: 200;">delivery fee: ₹0</p>
+              <p style="margin-top: 10px;">final price: ₹<%= finalPrice %></p>
+            </div>
+
+              <% }else{
+                let finalPrice = totalPrice + offers.delivery; 
+              %>
+
+              <div id="totalprice" style="font-size: medium; margin-right: 10px;">
+                  <p style="font-size: medium; font-weight: 300;">total price: ₹<%= totalPrice %></p>
+                  <p style="font-size: small; font-weight: 200;">delivery fee: ₹<%= offers.delivery %></p>
+                  <p style="margin-top: 10px;">final price: ₹<%= finalPrice %></p>
+              </div>
+
+            <% } %>
+        <% }) %>
+        <button class="btn" id="openModal">place order</button>
+      </div>
+    </div>
+    <% } %>
+    
+<%  }else{ %>
+  <p style="text-align: center; margin-top: 100px;">please login</p>
+  <div style="display: flex; justify-content: center; margin-top: 20px;" id="login">
+            <a href="/login"><button style="border: none; padding: 5px; border-radius: 5px; background-color: #c4942d;width: 100px;">login</button></a>
+        </div>
+<% } %>
+
+
+<!-- Popup Modal -->
+<div id="checkoutModal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="closeModal">&times;</span>
+    
+    <!-- Checkout Form -->
+    <div id="formContainer">
+      <h2>Checkout</h2>
+      <form id="checkoutForm">
+  <!-- Username & Mobile -->
+  <% if(user){ %>
+    <label>username: <p style="font-weight: 300;"><%= user.username %></p></label>
+    <label>contact number: <p style="font-weight: 300;"><%= user.mobilenumber %></p></label>
+  <% } %>
+  <br>
+
+  <!-- Address -->
+  <label for="address">Shipping Address</label>
+  <textarea id="address" name="address" rows="3" placeholder="Enter Your Full Address" required></textarea>
+
+  <div id="city" style="display: flex; justify-content: space-between;">
+    <h4 style="padding: 2px;">city:</h4>
+    <h5 style="border: 2px solid grey; padding: 2px 10px; border-radius: 10px;">Mansa, 382845</h5>
+    <h4 style="padding: 2px;">state:</h4>
+    <h5 style="border: 2px solid grey; padding: 2px 10px; border-radius: 10px;">Gujarat</h5>
+  </div>
+  <div style="color: red;">*we are only available in Mansa, Gujarat</div>
+  <br>
+
+  <!-- Payment -->
+  <label for="payment">Payment Method</label>
+  <select id="payment" name="payment_method" required>
+    <option value="">-- Select Payment Method --</option>
+    <option value="UPI">UPI</option>
+    <option value="COD">Cash on Delivery</option>
+  </select>
+
+  <div id="upiDetails" class="payment-details">
+    <label>UPI ID</label>
+    <input type="text" placeholder="example@upi">
+  </div>
+
+  <div id="codDetails" class="payment-details">
+    <p>Pay on delivery, You will pay when you receive your order.</p>
+  </div>
+
+  <button type="submit" class="btn">proceed</button>
+</form>
+      </div>
+
+      <!-- Success Message -->
+    <div id="successMessage" style="display:none;">
+  <h3>✅ Order Placed Successfully!</h3>
+  <p id="orderId"></p>
+  <p id="successAddress"></p>
+  <p id="successPayment"></p>
+  <a href="/">
+  <button class="btn" id="closeSuccess" style="background-color: white; border: 1px solid #d36e15; color: #d36e15;">go to home</button>
+</a>
+ <a href="/myorders">
+  <button class="btn" id="closeSuccess">go to myorders</button>
+</a>
+</div>
+    </div>
+  </div>
+
+        <script src="script.js"></script>
+         <script src="cart.js"></script>
+         <script src="slide.js"></script>
+         <script>
+document.getElementById("checkoutForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(e.target);
+  const data = Object.fromEntries(formData.entries());
+
+  // ✅ get cart items from localStorage (or however you store them)
+  const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+
+  // ✅ attach cartItems to data
+  data.cartItems = cartItems;
+
+  try {
+    const res = await fetch("/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+      document.getElementById("orderId").innerHTML = `<b>Date:</b> ${result.date}   <b>Time:</b> ${result.time}`;
+      document.getElementById("successAddress").innerHTML = `<b>Address:</b> ${data.address}`;
+      document.getElementById("successPayment").innerHTML = `<b>Payment Method:</b> ${data.payment_method}`;
+
+      document.getElementById("formContainer").style.display = "none";
+      document.getElementById("successMessage").style.display = "block";
+    } else {
+      alert(result.message);
+    }
+  } catch (err) {
+    alert("❌ Error placing order");
+    console.error(err);
+  }
+});
+
+</script>
+</body>
+</html>

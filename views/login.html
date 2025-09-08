@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Registration</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins","Arial";
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(90deg, #e2a83ca3, #ac1d9e9f);
+        }
+
+        .maincontain{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 80px;
+        }
+
+        .container {
+            display: flex;
+            gap: 30px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .form-box {
+            width: 300px;  
+           
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        input:focus {
+            border-color: #8f7337;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #c4942d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #8f7337;
+        }
+
+        .switch-text {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 10px;
+            color: #555;
+        }
+
+        .switch-text a {
+            color: #c4942d;
+            text-decoration: none;
+        }
+        .switch-text a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+                scale: 0.7;
+            }
+        }
+    </style>
+</head>
+<body>
+         <div id="nav">
+    <div id="logo">
+        <img id="logoimg" src="/images/logo.png" alt="">
+    </div>
+
+    <!-- Dropdown Links -->
+    <div id="pages">
+        <div id="home">
+            <a href="/">home</a>
+        </div>
+        <div id="menu">
+        <a href="/menu/pizza">menu</a>
+         </div>
+        <div id="photogallery">
+            <a href="">photo gallery</a>
+        </div>
+        <div id="contact">
+            <a href="">contact us</a>
+        </div>
+        <div id="cart">
+            <a href="/cart"><button>my cart</button></a>
+        </div>
+        <div id="login">
+            <a href="/login"><button>login</button></a>
+        </div>
+    </div>
+
+    <!-- Hamburger Menu Icon -->
+    <div id="menu-toggle">☰</div>
+
+</div>
+
+<div class="maincontain">
+
+    <div class="container">
+        <!-- Login Form -->
+        <div class="form-box active">
+            <h2>Login</h2>
+            <form method="post" action="/login">
+                <div class="input-group">
+                    <label>Number</label>
+                    <input type="tel" maxlength="10" minlength="10" name="mobilenumber" placeholder="Enter your number" required>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit">Login</button>
+                <p class="switch-text">Don't have an account? <a href="/resister">Register</a></p>
+            </form>
+        </div>
+
+    </div>
+</div>
+<script src="slide.js"></script>
+</body>
+</html>

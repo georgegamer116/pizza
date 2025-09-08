@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+      margin: 0;
+      padding: 0;
+    }
+    h2 {
+      text-align: center;
+      margin: 20px 0;
+    }
+    table {
+      width: 90%;
+      margin: 0px auto 40px auto;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    table th, table td {
+      padding: 12px 15px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+    table th {
+      background: #c4942d;
+      color: white;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    table td{
+      height: 100px;
+      font-weight: 300;
+    }
+    table tr:hover {
+      background: #f1f1f1;
+    }
+    .empty {
+      text-align: center;
+      margin-top: 100px;
+      font-size: 18px;
+    }
+    a {
+      color: #ffffff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body style="background: linear-gradient(360deg,rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 18%, rgba(230, 193, 60, 0.82) 100%); background-repeat: no-repeat;">
+    <div id="nav">
+    <div id="logo">
+        <img id="logoimg" src="/images/logo.png" alt="">
+    </div>
+
+    <!-- Dropdown Links -->
+    <div id="pages">
+        <div id="home">
+            <a href="/">home</a>
+        </div>
+         <div id="menu">
+        <a href="/menu/pizza">menu</a>
+    </div>
+        <div id="photogallery">
+            <a href="">photo gallery</a>
+        </div>
+        <div id="contact">
+            <a href="">contact us</a>
+        </div>
+         <% if (!user) { %>
+        <div id="login">
+            <a href="/login"><button>login</button></a>
+        </div>
+        <%  } %>
+      <% if (user) { %>
+        <p id="user">👤 <%= user.username %></p>
+        <%  } %>
+    </div>
+
+    <!-- Hamburger Menu Icon -->
+    <div id="menu-toggle">☰</div>
+
+</div>
+          
+      
+<a href="/cart" style="color: rgb(84, 57, 22); margin: 20px;">my cart</a>
+<a href="/myorders" style="border-bottom: 3px solid rgb(128, 128, 128); color: rgb(58, 36, 8); margin: 20px; font-weight: 700; font-size: larger;">my orders</a>
+<hr style="width: 60%; height: 4px; background-color: rgba(128, 128, 128, 0.641); border-radius: 30px; margin-top: 10px;">
+
+         <% if (orders.length > 0) { %>
+    <table>
+      
+      <tbody>
+        <% orders.forEach(order => { %>
+          <div style="margin-top: 20px;">
+          <tr>
+            <td><%= new Date(order.created_at).toISOString().split("T")[0] %></td>
+            <td><%= new Date(order.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) %></td>
+            <td><%= order.oname %></td>
+            <td>₹<%= order.total_price %></td>
+            <td><%= order.payment_method %></td>
+            <td><p style="font-weight: 500;">order status:</p><%= order.status %></td>
+          </tr>
+        </div>
+        <% }) %>
+      </tbody>
+    
+    </table>
+  <% } else { %>
+    <p class="empty">You haven’t placed any orders yet. <a style="color: #7e6304; font-weight: 500; text-decoration: underline;" href="/menu/pizza">Order Now</a></p>
+  <% } %>
+
+        <script src="script.js"></script>
+         <script src="cart.js"></script>
+          <script src="slide.js"></script>
+</body>
+</html>
